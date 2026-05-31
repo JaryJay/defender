@@ -23,7 +23,7 @@ object SummaryScheduler {
         }
         val triggerAt = scheduled.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
         val alarmManager = context.getSystemService(AlarmManager::class.java)
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent(context))
+        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent(context))
     }
 
     fun cancel(context: Context) {

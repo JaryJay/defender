@@ -12,6 +12,7 @@
     <string name="haptic_feedback">Haptic feedback (vibrate on block)</string>
     <string name="daily_summary">Daily summary notification</string>
     <string name="summary_time">Summary time</string>
+    <string name="settings_title">Settings</string>
     <string name="change_pin">Change PIN</string>
     <string name="pin_title">Enter PIN</string>
     <string name="pin_set_title">Set PIN</string>

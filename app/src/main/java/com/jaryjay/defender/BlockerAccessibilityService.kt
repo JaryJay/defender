@@ -2,7 +2,6 @@ package com.jaryjay.defender
 
 import android.accessibilityservice.AccessibilityService
 import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityNodeInfo
 import android.os.SystemClock
 
 class BlockerAccessibilityService : AccessibilityService() {
@@ -49,7 +48,7 @@ class BlockerAccessibilityService : AccessibilityService() {
         }
         val now = SystemClock.elapsedRealtime()
         if (now - lastBackActionMs < 800) return false
-        return rootInActiveWindow != null
+        return true
     }
 
     private fun performBlock(type: BlockType) {
