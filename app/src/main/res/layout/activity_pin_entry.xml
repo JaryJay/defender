@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/pin_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pin_title"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/pin_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:inputType="numberPassword" />
+
+    <EditText
+        android:id="@+id/pin_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:inputType="numberPassword"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/pin_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/pin_action_unlock" />
+
+    <TextView
+        android:id="@+id/pin_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone" />
+</LinearLayout>
