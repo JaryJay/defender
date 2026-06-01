@@ -28,9 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             app:labelBehavior="gone"
-            app:stepSize="5"
-            app:valueFrom="5"
-            app:valueTo="120" />
+            android:stepSize="5"
+            android:valueFrom="5"
+            android:valueTo="120" />
 
         <Button
             android:id="@+id/pause_button"

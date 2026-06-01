@@ -16,66 +16,68 @@ import android.Manifest
 import android.os.Build
 
 class MainActivity : AppCompatActivity() {
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    if (!AccessibilityUtils.isAccessibilityEnabled(this)) {
-        startActivity(Intent(this, OnboardingActivity::class.java))
-        finish()
-        return
-    }
-    setContentView(R.layout.activity_main)
-
-    val toolbar = findViewById<MaterialToolbar>(R.id.main_toolbar)
-    setSupportActionBar(toolbar)
-
-    val pager = findViewById<ViewPager2>(R.id.main_pager)
-    pager.adapter = MainPagerAdapter(this)
-
-    val tabs = findViewById<TabLayout>(R.id.main_tabs)
-    TabLayoutMediator(tabs, pager) { tab, position ->
-        tab.text = when (position) {
-            0 -> getString(R.string.tab_home)
-            1 -> getString(R.string.tab_apps)
-            else -> getString(R.string.tab_sites)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (!AccessibilityUtils.isAccessibilityEnabled(this)) {
+            startActivity(Intent(this, OnboardingActivity::class.java))
+            finish()
+            return
         }
-    }.attach()
+        setContentView(R.layout.activity_main)
 
-    SummaryScheduler.scheduleNext(this)
-    if (DefenderPreferences.isSummaryEnabled(this)) {
-        requestNotificationsIfNeeded()
-    }
-}
+        val toolbar = findViewById<MaterialToolbar>(R.id.main_toolbar)
+        setSupportActionBar(toolbar)
 
-override fun onResume() {
-    super.onResume()
-    if (!AccessibilityUtils.isAccessibilityEnabled(this)) {
-        startActivity(Intent(this, OnboardingActivity::class.java))
-        finish()
-        return
-    }
-}
+        val pager = findViewById<ViewPager2>(R.id.main_pager)
+        pager.adapter = MainPagerAdapter(this)
 
-override fun onCreateOptionsMenu(menu: Menu): Boolean {
-    menuInflater.inflate(R.menu.main_menu, menu)
-    return true
-}
+        val tabs = findViewById<TabLayout>(R.id.main_tabs)
+        TabLayoutMediator(tabs, pager) { tab, position ->
+            tab.text = when (position) {
+                0 -> getString(R.string.tab_home)
+                1 -> getString(R.string.tab_apps)
+                else -> getString(R.string.tab_sites)
+            }
+        }.attach()
 
-override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    return when (item.itemId) {
-        R.id.action_settings -> {
-            startActivity(Intent(this, SettingsActivity::class.java))
-            true
+        SummaryScheduler.scheduleNext(this)
+        if (DefenderPreferences.isSummaryEnabled(this)) {
+            requestNotificationsIfNeeded()
         }
-        else -> super.onOptionsItemSelected(item)
     }
-}
 
-private fun requestNotificationsIfNeeded() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        val granted = ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
-            PackageManager.PERMISSION_GRANTED
-        if (!granted) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 2001)
+    override fun onResume() {
+        super.onResume()
+        if (!AccessibilityUtils.isAccessibilityEnabled(this)) {
+            startActivity(Intent(this, OnboardingActivity::class.java))
+            finish()
+            return
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun requestNotificationsIfNeeded() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val granted = ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED
+            if (!granted) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 2001)
+            }
         }
     }
 }
