@@ -33,15 +33,15 @@ class PinEntryActivity : AppCompatActivity() {
 
         action.setOnClickListener {
             error.visibility = View.GONE
-            val pin = pinInput.text.toString().trim()
+            val pin = pinInput.text.toString().filter { it.isDigit() }
             if (pin.length < 4) {
-                showError(error, "PIN must be at least 4 digits")
+                showError(error, getString(R.string.pin_error_short))
                 return@setOnClickListener
             }
             if (isSetMode) {
-                val confirm = pinConfirm.text.toString().trim()
+                val confirm = pinConfirm.text.toString().filter { it.isDigit() }
                 if (confirm != pin) {
-                    showError(error, "PINs do not match")
+                    showError(error, getString(R.string.pin_error_mismatch))
                     return@setOnClickListener
                 }
                 PinManager.setPin(this, pin)
@@ -52,7 +52,7 @@ class PinEntryActivity : AppCompatActivity() {
                     PinManager.recordAuthorized(this)
                     finish()
                 } else {
-                    showError(error, "Incorrect PIN")
+                    showError(error, getString(R.string.pin_error_incorrect))
                 }
             }
         }

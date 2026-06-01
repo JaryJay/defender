@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Defender">
 
         <activity android:name=".PinEntryActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".OnboardingActivity" />
+        <activity android:name=".AppPickerActivity" />
 
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>

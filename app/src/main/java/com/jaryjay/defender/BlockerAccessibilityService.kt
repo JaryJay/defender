@@ -23,14 +23,15 @@ class BlockerAccessibilityService : AccessibilityService() {
 
         val paused = pauseManager.isPaused()
         if (repository.isAppBlocked(packageName, paused)) {
-            performBlock(BlockType.APP)
+            performAppBlock(packageName)
             return
         }
 
         if (isBrowserPackage(packageName)) {
             val url = BrowserUrlExtractor.extractUrl(rootInActiveWindow, packageName)
-            if (!url.isNullOrBlank() && repository.isSiteBlocked(url, paused)) {
-                performBlock(BlockType.SITE)
+            val host = url?.let { WildcardMatcher.normalizeHost(it) }
+            if (!host.isNullOrBlank() && repository.isSiteBlocked(host, paused)) {
+                performSiteBlock(host)
             }
         }
     }
@@ -51,15 +52,20 @@ class BlockerAccessibilityService : AccessibilityService() {
         return true
     }
 
-    private fun performBlock(type: BlockType) {
+    private fun performAppBlock(packageName: String) {
         val now = SystemClock.elapsedRealtime()
         lastBackActionMs = now
         HapticFeedback.vibrateIfEnabled(this)
         performGlobalAction(GLOBAL_ACTION_BACK)
-        when (type) {
-            BlockType.APP -> statsTracker.recordAppBlock()
-            BlockType.SITE -> statsTracker.recordSiteBlock()
-        }
+        statsTracker.recordAppBlock(packageName)
+    }
+
+    private fun performSiteBlock(host: String) {
+        val now = SystemClock.elapsedRealtime()
+        lastBackActionMs = now
+        HapticFeedback.vibrateIfEnabled(this)
+        performGlobalAction(GLOBAL_ACTION_BACK)
+        statsTracker.recordSiteBlock(host)
     }
 
     private fun isBrowserPackage(packageName: String): Boolean {
@@ -70,10 +76,5 @@ class BlockerAccessibilityService : AccessibilityService() {
             "com.brave.browser",
             "com.opera.browser"
         )
-    }
-
-    private enum class BlockType {
-        APP,
-        SITE
     }
 }

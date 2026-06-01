@@ -5,20 +5,16 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/main_toolbar"
+        android:id="@+id/app_picker_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:title="@string/app_name"
-        app:titleCentered="true" />
+        android:title="@string/select_app_title"
+        app:navigationIcon="@android:drawable/ic_menu_close_clear_cancel" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/main_tabs"
+    <ListView
+        android:id="@+id/app_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/main_pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp" />
 </LinearLayout>
